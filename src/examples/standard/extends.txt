@@ -1,0 +1,4 @@
+export type T0 = number extends number ? true : false  // true
+
+export type T1 = number extends string ? true : false  // false
+

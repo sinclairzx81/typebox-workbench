@@ -1,34 +1,31 @@
+import * as Packages from './build/packages'
+import * as Monaco from './build/monaco'
+
+// --------------------------------------------------------------------------------------
+// Libraries
+// --------------------------------------------------------------------------------------
+const libraries = ['@sinclair/typebox', 'arktype', 'zod', 'io-ts', 'fp-ts', 'yup', 'valibot']
+
 // --------------------------------------------------------------------------------------
 // Clean
 // --------------------------------------------------------------------------------------
 export async function clean() {
-    await folder('target').delete()
+  await folder('docs').delete()
 }
 // -------------------------------------------------------------------------------
 // Format
 // -------------------------------------------------------------------------------
 export async function format() {
-    await shell('prettier --no-semi --single-quote --print-width 240 --trailing-comma all --write website')
+  await shell('prettier --no-semi --single-quote --print-width 240 --trailing-comma all --write src hammer.mjs')
 }
 // --------------------------------------------------------------------------------------
 // Start
 // --------------------------------------------------------------------------------------
-export async function build_monaco_workers(target = 'target/monaco-workers') {
-    const root = 'node_modules/monaco-editor/esm/vs'
-    await Promise.all([
-        shell(`hammer build ${root}/language/json/json.worker.js --dist ${target}`),
-        shell(`hammer build ${root}/language/css/css.worker.js --dist ${target}`),
-        shell(`hammer build ${root}/language/html/html.worker.js --dist ${target}`),
-        shell(`hammer build ${root}/language/typescript/ts.worker.js --dist ${target}`),
-        shell(`hammer build ${root}/editor/editor.worker.js --dist ${target}`)
-    ])
-}
-export async function copy_typebox(target = 'target') {
-    const root = 'node_modules/@sinclair/typebox'
-    await folder(root).copy(target)
-}
 export async function start() {
-    await build_monaco_workers()
-    await copy_typebox()
-    await shell('hammer serve website/index.html --dist target')
+  await clean()
+  await Monaco.buildWorkers()
+  await Packages.addPackages(libraries)
+  const drift = shell('drift url http://localhost:5000 size 1280 820 wait 4000 save workbench.png')
+  const serve = shell('hammer serve src/index.html --dist docs --minify --external assert')
+  await Promise.all([drift, serve])
 }

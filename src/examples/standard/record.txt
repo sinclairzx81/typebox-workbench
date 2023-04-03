@@ -1,0 +1,5 @@
+export type T = Record<string, {
+  x: number,
+  y: number,
+  z: number
+}>

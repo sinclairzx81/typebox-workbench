@@ -1,0 +1,7 @@
+export type T = {
+  x: number,
+  y: number,
+  z: number
+}
+
+export type U = Partial<T>

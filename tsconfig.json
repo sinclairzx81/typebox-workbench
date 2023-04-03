@@ -4,6 +4,7 @@
         "target": "ESNext",
         "module": "ESNext",
         "moduleResolution": "node",
-        "allowArbitraryExtensions": true
+        "allowArbitraryExtensions": true,
+        "jsx": "react"
     }
 }

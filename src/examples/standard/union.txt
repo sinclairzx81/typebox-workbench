@@ -1,0 +1,7 @@
+export type T = {
+  type: 'A'
+  value: string
+} | {
+  type: 'B'
+  value: number
+}

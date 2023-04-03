@@ -1,0 +1,12 @@
+export type T0 = number[]      
+
+export type T1 = number[][]    
+
+export type T2 = number[][][]  
+
+export type T3 = {             
+  x: number,
+  y: number,
+  z: number
+}[]
+

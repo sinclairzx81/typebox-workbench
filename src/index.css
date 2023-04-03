@@ -1,0 +1,327 @@
+/*--------------------------------------------------------------------------
+
+@sinclair/typebox/workbench
+
+The MIT License (MIT)
+
+Copyright (c) 2023 Haydn Paterson (sinclair) <haydn.developer@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+---------------------------------------------------------------------------*/
+
+@font-face {
+  font-family: 'conthrax';
+  src: url('./assets/fonts/font.ttf');
+}
+:root {
+  --background-color: #010409;
+  --outline-color: #ffa500;
+  --link-color: #ffa500;
+  --control-default-color: #111;
+  --control-selected-color: #222;
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+  overflow: hidden;
+}
+#container {
+  width: 100%;
+  height: 100%;
+}
+/* ----------------------------------------------------
+ Scrollable: Only for browsers with window.chrome
+------------------------------------------------------ */
+.scrollable {
+  overflow: scroll;
+}
+
+/* ----------------------------------------------------
+ App
+------------------------------------------------------ */
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ----------------------------------------------------
+APP HEADER 
+------------------------------------------------------ */
+.app > .header {
+  font-family: conthrax;
+  width: 100%;
+  height: 80px;
+  min-height: 80px;
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--outline-color);
+  display: flex;
+  flex-direction: row;
+}
+.app > .header > .left {
+  width: 80px;
+  height: 100%;
+}
+.app > .header > .left a > .logo {
+  background-image: url('./assets/images/typebox-control.png');
+  background-size: 64px;
+  margin: calc((80px - 64px) / 2);
+  width: 64px;
+  height: 64px;
+}
+.app > .header > .middle {
+  width: calc(100%);
+  height: 100%;
+  white-space: nowrap;
+}
+.app > .header > .middle > h1,
+h2 {
+  margin: 0;
+  padding: 0;
+  margin-top: 12px;
+  height: 38px;
+  line-height: 38px;
+  color: #ccc;
+}
+.app > .header > .middle > p {
+  display: block;
+  float: left;
+  margin: 0;
+  padding: 0;
+  color: var(--outline-color);
+  font-size: 0.8em;
+}
+.app > .header > .right {
+  width: 80px;
+  height: 100%;
+}
+.app > .header > .right > a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Ensure the container takes up the full height of the anchor element */
+  text-decoration: none; /* Remove underline from anchor element */
+}
+.app > .header > .right > a > img {
+  width: 32px;
+  height: 32px;
+  text-align: center;
+}
+/* ----------------------------------------------------
+APP BODY 
+------------------------------------------------------ */
+.app > .body {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  width: 100%;
+  height: calc(100% - 72px - 8px - 32px - 16px); /* 16px margins */
+}
+/* ----------------------------------------------------
+APP FOOTER
+------------------------------------------------------ */
+.app > .footer {
+  text-align: center;
+  width: 100%;
+  height: 32px;
+  min-height: 32px;
+  background-color: var(--background-color);
+  border-top: solid 1px var(--outline-color);
+}
+.app > .footer span {
+  font-family: conthrax;
+  font-size: 0.8em;
+  color: #aaa;
+  margin: 0;
+  padding: 0;
+  margin-left: 24px;
+  height: 32px;
+  line-height: 32px;
+}
+.app > .footer a {
+  font-family: conthrax;
+  text-decoration: none;
+  color: var(--link-color);
+}
+/* ----------------------------------------------------
+ Splitter
+------------------------------------------------------ */
+.splitter .gutter {
+  background: #111;
+  transition: background 0.25s ease-in;
+  overflow: hidden;
+}
+.splitter .gutter:hover {
+  background: #111;
+  transition: background 0.25s ease-in;
+  border: 1px solid var(--outline-color);
+  border-radius: 4px;
+}
+/** ----------------------------------------------------
+ Editor
+------------------------------------------------------ */
+.editor {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.editor {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.editor .source-container {
+  width: 100%;
+  height: 100%;
+}
+.editor .source-container .source-editor {
+  width: 100%;
+  height: 100%;
+}
+.editor .target-container {
+  margin-left: 8px;
+  width: calc(100% - 8px);
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.editor .target-container .target-editor {
+  width: calc(100% - 72px);
+  height: 100%;
+}
+/** ----------------------------------------------------
+ Transform Controls + Buttons
+------------------------------------------------------ */
+.editor .target-container .target-controls::-webkit-scrollbar {
+  width: 0px;
+}
+.editor .target-container .target-controls::-webkit-scrollbar-track {
+  background: transparent;
+}
+.editor .target-container .target-controls::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+.editor .target-container .target-controls {
+  background-color: #020202;
+  margin-left: 12px;
+  width: 56px;
+  min-width: 56px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none; /** Firefox */
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.editor .target-container .target-controls .control {
+  transition: all ease 0.5s;
+  width: 48px;
+  height: 48px;
+  min-height: 48px;
+  user-select: none;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+  background-color: var(--control-default-color);
+  margin-bottom: 8px;
+}
+.editor .target-container .target-controls .control.separator {
+  height: 4px;
+  border-radius: 4px;
+  min-height: 4px;
+  border: var(--outline-color) 1px solid;
+  cursor: default;
+}
+.editor .target-container .target-controls .control.arktype {
+  background-image: url('./assets/images/arktype-control.png');
+  background-size: 48px;
+}
+.editor .target-container .target-controls .control.expression {
+  background-image: url('./assets/images/expression-control.png');
+  background-size: 48px;
+}
+.editor .target-container .target-controls .control.grpc {
+  background-image: url('./assets/images/grpc-control.png');
+  background-size: 48px;
+}
+.editor .target-container .target-controls .control.iots {
+  background-image: url('./assets/images/iots-control.png');
+  background-size: 48px;
+}
+.editor .target-container .target-controls .control.javascript {
+  background-image: url('./assets/images/javascript-control.png');
+  background-size: 48px;
+}
+.editor .target-container .target-controls .control.jsonschema {
+  background-image: url('./assets/images/jsonschema-control.png');
+  background-size: 48px;
+}
+.editor .target-container .target-controls .control.typebox {
+  background-image: url('./assets/images/typebox-control.png');
+  background-size: 48px;
+}
+.editor .target-container .target-controls .control.typescript {
+  background-image: url('./assets/images/typescript-control.png');
+  background-size: 48px;
+}
+.editor .target-container .target-controls .control.valibot {
+  background-image: url('./assets/images/valibot-control.png');
+  background-size: 48px;
+}
+.editor .target-container .target-controls .control.value {
+  background-image: url('./assets/images/value-control.png');
+  background-size: 48px;
+}
+.editor .target-container .target-controls .control.yup {
+  background-image: url('./assets/images/yup-control.png');
+  background-size: 48px;
+}
+.editor .target-container .target-controls .control.zod {
+  background-image: url('./assets/images/zod-control.png');
+  background-size: 48px;
+}
+.editor .target-container .target-controls .control:hover {
+  cursor: pointer;
+}
+.editor .target-container .target-controls .control.selected {
+  background-color: var(--control-selected-color);
+  border: 1px solid var(--outline-color);
+}
+/** ----------------------------------------------------
+ Transform Control Label
+------------------------------------------------------ */
+.editor .target-container .target-name {
+  background-color: #020202;
+  font-family: conthrax;
+  width: 32px;
+  margin-top: 8px;
+  line-height: 32px;
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+  user-select: none;
+  color: #aaa;
+}

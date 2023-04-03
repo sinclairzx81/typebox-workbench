@@ -1,0 +1,5 @@
+export type A = 'A' | 'B' | 'C'
+
+export type B = 'A' | 'B'
+
+export type T = Exclude<A, B>
