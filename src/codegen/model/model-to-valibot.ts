@@ -77,7 +77,7 @@ export namespace ModelToValibot {
     return UnsupportedType(schema)
   }
   function Integer(schema: Types.TInteger) {
-    return Type(`v.integer`, null, [`v.integer()`])
+    return Type(`v.number`, null, [`v.integer()`])
   }
   function Intersect(schema: Types.TIntersect) {
     const inner = schema.allOf.map((inner) => Visit(inner))
@@ -222,7 +222,6 @@ export namespace ModelToValibot {
   const reference_map = new Map<string, Types.TSchema>()
   const recursive_set = new Set<string>()
   const emitted_set = new Set<string>()
-  const import_set = new Set<string>()
   export function Generate(model: TypeBoxModel): string {
     reference_map.clear()
     recursive_set.clear()
