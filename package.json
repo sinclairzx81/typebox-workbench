@@ -10,19 +10,19 @@
     "@types/node": "^20.3.2",
     "@types/prettier": "^2.7.2",
     "@types/react": "^18.0.32",
-    "@types/react-dom": "^18.0.11",
-    "prettier": "^2.8.7",
-    "zod": "^3.22.2"
+    "@types/react-dom": "^18.0.11"
   },
   "dependencies": {
     "@sinclair/typebox": "^0.31.8",
     "arktype": "^1.0.14-alpha",
     "io-ts": "^2.2.20",
     "monaco-editor": "^0.39.0",
+    "prettier": "^2.8.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.0.3",
     "valibot": "^0.13.1",
-    "yup": "^1.2.0"
+    "yup": "^1.2.0",
+    "zod": "^3.22.2"
   }
 }

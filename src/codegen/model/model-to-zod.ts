@@ -120,7 +120,7 @@ export namespace ModelToZod {
       const property = PropertyEncoder.Encode(key)
       // prettier-ignore
       return (
-        readonly && optional ? `${property}: ${Visit(value)}.optional().readonly()` : 
+        readonly && optional ? `${property}: ${Visit(value)}.readonly().optional()` : 
         readonly ? `${property}: ${Visit(value)}.readonly()` :
         optional ? `${property}: ${Visit(value)}.optional()` :
         `${property}: ${Visit(value)}`
