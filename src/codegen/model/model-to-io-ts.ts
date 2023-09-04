@@ -278,7 +278,7 @@ export namespace ModelToIoTs {
     recursive_set.clear()
     emitted_set.clear()
     const buffer: string[] = [`import t from 'io-ts'`, '']
-    const types = model.types.filter(type => Types.TypeGuard.TSchema(type)).map((type) => GenerateType(model, type, model.types))
+    const types = model.types.filter((type) => Types.TypeGuard.TSchema(type)).map((type) => GenerateType(model, type, model.types))
     buffer.push(...support_types.values())
     buffer.push('\n')
     buffer.push(...types)

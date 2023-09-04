@@ -355,7 +355,7 @@ export namespace TypeBoxToExpression {
 export namespace ModelToExpr {
   export function Generate(model: TypeBoxModel): string {
     const definitions: string[] = []
-    for (const type of model.types.filter(type => Types.TypeGuard.TSchema(type))) {
+    for (const type of model.types.filter((type) => Types.TypeGuard.TSchema(type))) {
       const expression = TypeBoxToExpression.Transform(
         type,
         model.types.filter((t) => t.$id !== type.$id),
