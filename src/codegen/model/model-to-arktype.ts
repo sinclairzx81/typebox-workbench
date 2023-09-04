@@ -249,12 +249,12 @@ export namespace ModelToArkType {
     emitted_types.clear()
     const buffer: string[] = []
     buffer.push('export const types = scope({')
-    for (const type of model.types) {
+    for (const type of model.types.filter(type => Types.TypeGuard.TSchema(type))) {
       buffer.push(`${GenerateType(type, model.types)},`)
     }
     buffer.push('}).compile()')
     buffer.push('\n')
-    for (const type of model.types) {
+    for (const type of model.types.filter(type => Types.TypeGuard.TSchema(type))) {
       buffer.push(`export type ${type.$id} = typeof ${type.$id}.infer`)
       buffer.push(`export const ${type.$id} = types.${type.$id}`)
     }

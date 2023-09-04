@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 import { TypeBoxModel } from './model'
 import { Expression } from '../expression/index'
-import { TypeSystem } from '@sinclair/typebox/system'
+import { TypeSystem, TypeSystemPolicy } from '@sinclair/typebox/system'
 import * as Types from '@sinclair/typebox'
 import { Formatter } from '../common/formatter'
 
@@ -141,7 +141,7 @@ export namespace TypeBoxToExpression {
     return Expression.And(
       function* () {
         yield Expression.IsNumber()
-        if (TypeSystem.AllowNaN === false) yield Expression.IsFinite()
+        if (TypeSystemPolicy.AllowNaN === false) yield Expression.IsFinite()
         if (IsNumber(schema.multipleOf)) yield Expression.MultipleOf(schema.multipleOf)
         if (IsNumber(schema.maximum)) yield Expression.LessThanEqual(schema.maximum)
         if (IsNumber(schema.minimum)) yield Expression.GreaterThanEqual(schema.minimum)
@@ -160,7 +160,7 @@ export namespace TypeBoxToExpression {
       function* () {
         yield Expression.IsObject()
         yield Expression.Not(Expression.IsNull())
-        if (TypeSystem.AllowArrayObjects === false) yield Expression.Not(Expression.IsArray())
+        if (TypeSystemPolicy.AllowArrayObject === false) yield Expression.Not(Expression.IsArray())
         if (IsNumber(schema.minProperties)) yield Expression.PropertiesMinimum(schema.minProperties)
         if (IsNumber(schema.maxProperties)) yield Expression.PropertiesMaximum(schema.maxProperties)
         if (schema.additionalProperties === false) {
@@ -355,7 +355,7 @@ export namespace TypeBoxToExpression {
 export namespace ModelToExpr {
   export function Generate(model: TypeBoxModel): string {
     const definitions: string[] = []
-    for (const type of model.types) {
+    for (const type of model.types.filter(type => Types.TypeGuard.TSchema(type))) {
       const expression = TypeBoxToExpression.Transform(
         type,
         model.types.filter((t) => t.$id !== type.$id),
