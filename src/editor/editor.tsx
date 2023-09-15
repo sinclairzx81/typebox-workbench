@@ -98,6 +98,7 @@ export function Editor(props: EditorProperties) {
     if (type === 'typescript') return Codegen.ModelToTypeScript.Generate(model)
     if (type === 'valibot') return Codegen.ModelToValibot.Generate(model)
     if (type === 'value') return Codegen.ModelToValue.Generate(model)
+    if (type === 'yrel') return Codegen.ModelToYrel.Generate(model)
     if (type === 'yup') return Codegen.ModelToYup.Generate(model)
     if (type === 'zod') return Codegen.ModelToZod.Generate(model)
     return ''
@@ -141,6 +142,7 @@ export function Editor(props: EditorProperties) {
     if (type === 'javascript') return 'JavaScript'
     if (type === 'jsonschema') return 'Json Schema'
     if (type === 'value') return 'JavaScript Value'
+    if (type === 'yrel') return 'Yrel'
     if (type === 'typebox') return 'TypeBox'
     if (type === 'typescript') return 'TypeScript'
     if (type === 'valibot') return 'Valibot'
@@ -157,6 +159,7 @@ export function Editor(props: EditorProperties) {
   const typescriptControlClassName = getControlsButtonClassName('typescript')
   const valibotControlClassName = getControlsButtonClassName('valibot')
   const valueControlClassName = getControlsButtonClassName('value')
+  const yrelControlClassName = getControlsButtonClassName('yrel')
   const yupControlClassName = getControlsButtonClassName('yup')
   const zodControlClassName = getControlsButtonClassName('zod')
   function onTransform(type: TransformType) {
@@ -180,6 +183,7 @@ export function Editor(props: EditorProperties) {
             <div className={arktypeControlClassName} title="ArkType Transform" onClick={() => onTransform('arktype')}></div>
             <div className={yupControlClassName} title="Yup Transform" onClick={() => onTransform('yup')}></div>
             <div className={valibotControlClassName} title="Valibot Transform" onClick={() => onTransform('valibot')}></div>
+            <div className={yrelControlClassName} title="Yrel Transform" onClick={() => onTransform('yrel')}></div>
             <div className="control separator" />
             <div className={jsonschemaControlClassName} title="JSON Schema Transform" onClick={() => onTransform('jsonschema')}></div>
             <div className={expressionControlClassName} title="Expr Transform" onClick={() => onTransform('expression')}></div>

@@ -296,6 +296,10 @@ APP FOOTER
   background-image: url('./assets/images/value-control.png');
   background-size: 48px;
 }
+.editor .target-container .target-controls .control.yrel {
+  background-image: url('./assets/images/yrel-control.png');
+  background-size: 48px;
+}
 .editor .target-container .target-controls .control.yup {
   background-image: url('./assets/images/yup-control.png');
   background-size: 48px;
