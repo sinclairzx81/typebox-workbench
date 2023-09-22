@@ -183,10 +183,10 @@ export function Editor(props: EditorProperties) {
             <div className={arktypeControlClassName} title="ArkType Transform" onClick={() => onTransform('arktype')}></div>
             <div className={yupControlClassName} title="Yup Transform" onClick={() => onTransform('yup')}></div>
             <div className={valibotControlClassName} title="Valibot Transform" onClick={() => onTransform('valibot')}></div>
-            <div className={yrelControlClassName} title="Yrel Transform" onClick={() => onTransform('yrel')}></div>
+            {/* <div className={yrelControlClassName} title="Yrel Transform" onClick={() => onTransform('yrel')}></div> */}
             <div className="control separator" />
             <div className={jsonschemaControlClassName} title="JSON Schema Transform" onClick={() => onTransform('jsonschema')}></div>
-            <div className={expressionControlClassName} title="Expr Transform" onClick={() => onTransform('expression')}></div>
+            <div className={expressionControlClassName} title="Type Expression Transform" onClick={() => onTransform('expression')}></div>
             {/* <div className={grpcControlClassName} title="GRPC IDL Transform" onClick={() => onTransform('grpc')}></div> */}
             <div className="control separator" />
             <div className={typescriptControlClassName} title="TypeScript Transform" onClick={() => onTransform('typescript')}></div>
