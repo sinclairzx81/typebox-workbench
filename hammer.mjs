@@ -4,7 +4,7 @@ import * as Monaco from './build/monaco'
 // --------------------------------------------------------------------------------------
 // Libraries
 // --------------------------------------------------------------------------------------
-const libraries = ['@sinclair/typebox', 'arktype', 'zod', 'io-ts', 'fp-ts', 'yup', 'valibot']
+const libraries = ['@sinclair/typebox', 'arktype', 'zod', 'io-ts', 'fp-ts', 'yup', 'valibot', 'yrel']
 
 // --------------------------------------------------------------------------------------
 // Clean
@@ -25,7 +25,7 @@ export async function start() {
   await clean()
   await Monaco.buildWorkers()
   await Packages.addPackages(libraries)
-  const drift = shell('drift url http://localhost:5000 size 1280 880 wait 4000 save workbench.png')
+  const drift = shell('drift url http://localhost:5000 size 1280 900 wait 4000 save workbench.png')
   const serve = shell('hammer serve src/index.html --dist docs --minify --external assert')
   await Promise.all([drift, serve])
 }

@@ -39,12 +39,12 @@ export namespace ModelToYrel {
     return type
   }
   function Any(schema: Types.TAny) {
-    return Type(schema, `v.any()`)
+    return Type(schema, `y.any()`)
   }
   function Array(schema: Types.TArray) {
     const items = Visit(schema.items)
     const buffer: string[] = []
-    buffer.push(`v.array(${items})`)
+    buffer.push(`y.array(${items})`)
     if (IsDefined<number>(schema.minItems)) buffer.push(`.min(${schema.minItems})`)
     if (IsDefined<number>(schema.maxItems)) buffer.push(`.max(${schema.maxItems})`)
     return Type(schema, buffer.join(``))
@@ -53,7 +53,7 @@ export namespace ModelToYrel {
     return UnsupportedType(schema)
   }
   function Boolean(schema: Types.TBoolean) {
-    return Type(schema, `v.boolean()`)
+    return Type(schema, `y.boolean()`)
   }
   function Date(schema: Types.TDate) {
     return UnsupportedType(schema)
@@ -66,7 +66,7 @@ export namespace ModelToYrel {
   }
   function Integer(schema: Types.TInteger) {
     const buffer: string[] = []
-    buffer.push(`v.number().integer()`)
+    buffer.push(`y.number().integer()`)
     if (IsDefined<number>(schema.minimum)) buffer.push(`.gte(${schema.minimum})`)
     if (IsDefined<number>(schema.maximum)) buffer.push(`.lte(${schema.maximum})`)
     if (IsDefined<number>(schema.exclusiveMinimum)) buffer.push(`.gt(${schema.exclusiveMinimum + 1})`)
@@ -77,7 +77,7 @@ export namespace ModelToYrel {
     return UnsupportedType(schema)
   }
   function Literal(schema: Types.TLiteral) {
-    return typeof schema.const === `string` ? Type(schema, `v.literal('${schema.const}')`) : Type(schema, `v.literal(${schema.const})`)
+    return typeof schema.const === `string` ? Type(schema, `y.literal('${schema.const}')`) : Type(schema, `y.literal(${schema.const})`)
   }
   function Never(schema: Types.TNever) {
     return UnsupportedType(schema)
@@ -87,14 +87,14 @@ export namespace ModelToYrel {
   }
   function String(schema: Types.TString) {
     const buffer: string[] = []
-    buffer.push(`v.string()`)
+    buffer.push(`y.string()`)
     if (IsDefined<number>(schema.maxLength)) buffer.push(`.max(${schema.maxLength})`)
     if (IsDefined<number>(schema.minLength)) buffer.push(`.min(${schema.minLength})`)
     return Type(schema, buffer.join(``))
   }
   function Number(schema: Types.TNumber) {
     const buffer: string[] = []
-    buffer.push(`v.number()`)
+    buffer.push(`y.number()`)
     if (IsDefined<number>(schema.minimum)) buffer.push(`.gte(${schema.minimum})`)
     if (IsDefined<number>(schema.maximum)) buffer.push(`.lte(${schema.maximum})`)
     if (IsDefined<number>(schema.exclusiveMinimum)) buffer.push(`.gt(${schema.exclusiveMinimum + 1})`)
@@ -115,7 +115,7 @@ export namespace ModelToYrel {
       )
     }).join(`,`)
     const buffer: string[] = []
-    buffer.push(`v.object({\n${properties}\n})`)
+    buffer.push(`y.object({\n${properties}\n})`)
     return Type(schema, buffer.join(``))
   }
   function Promise(schema: Types.TPromise) {
@@ -136,7 +136,7 @@ export namespace ModelToYrel {
   function Tuple(schema: Types.TTuple) {
     if (schema.items === undefined) return `[]`
     const items = schema.items.map((schema) => Visit(schema)).join(`, `)
-    return Type(schema, `v.tuple([${items}])`)
+    return Type(schema, `y.tuple([${items}])`)
   }
   function TemplateLiteral(schema: Types.TTemplateLiteral) {
     return UnsupportedType(schema)
@@ -148,7 +148,7 @@ export namespace ModelToYrel {
     return UnsupportedType(schema)
   }
   function Union(schema: Types.TUnion) {
-    return Type(schema, `v.union([${schema.anyOf.map((schema) => Visit(schema)).join(`, `)}])`)
+    return Type(schema, `y.union([${schema.anyOf.map((schema) => Visit(schema)).join(`, `)}])`)
   }
   function Unknown(schema: Types.TUnknown) {
     return UnsupportedType(schema)
@@ -157,7 +157,7 @@ export namespace ModelToYrel {
     return UnsupportedType(schema)
   }
   function UnsupportedType(schema: Types.TSchema) {
-    return `${Type(schema, `v.any( /* unsupported */)`)}`
+    return `${Type(schema, `y.any( /* unsupported */)`)}`
   }
   function Visit(schema: Types.TSchema): string {
     if (schema.$id !== undefined) reference_map.set(schema.$id, schema)
@@ -201,7 +201,7 @@ export namespace ModelToYrel {
     }
     const type = Collect(schema)
 
-    output.push(`export type ${schema.$id} = InferDataSchemaType<typeof ${schema.$id}>`)
+    output.push(`export type ${schema.$id} = InferYrel<typeof ${schema.$id}>`)
     output.push(`export const ${schema.$id || `T`} = ${Formatter.Format(type)}`)
 
     if (schema.$id) emitted_set.add(schema.$id)
@@ -214,7 +214,7 @@ export namespace ModelToYrel {
     reference_map.clear()
     recursive_set.clear()
     emitted_set.clear()
-    const buffer: string[] = [`import { v, type InferDataSchemaType } from 'yrel'`, '']
+    const buffer: string[] = [`import { y, type InferYrel } from 'yrel'`, '']
     for (const type of model.types.filter((type) => Types.TypeGuard.TSchema(type))) {
       buffer.push(GenerateType(model, type, model.types))
     }
