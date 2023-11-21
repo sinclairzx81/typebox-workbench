@@ -162,6 +162,7 @@ export namespace TypeScriptToTypeBox {
   // code generation, we tend to prefer referential types as these can be both inlined or referenced in
   // the codegen target; and where different targets may have different referential requirements. It
   // should be possible to implement a more robust injection mechanism however. For review.
+  // prettier-ignore
   function InjectOptions(type: string, options: Record<string, unknown>): string {
     if (globalThis.Object.keys(options).length === 0) return type
     // unwrap for modifiers
@@ -173,10 +174,7 @@ export namespace TypeScriptToTypeBox {
     if (type.lastIndexOf(']') === type.length - 1) useTypeClone = true
     if (type.lastIndexOf(']') === type.length - 1) return `TypeClone.Clone(${type}, ${encoded})`
     // referenced type
-    if (type.indexOf('(') === -1) {
-      useTypeClone = true
-      return `TypeClone.Type(${type}, ${encoded})`
-    }
+    if (type.indexOf('(') === -1) { useTypeClone = true; return `TypeClone.Type(${type}, ${encoded})` }
     if (type.lastIndexOf('()') === type.length - 2) return type.slice(0, type.length - 1) + `${encoded})`
     if (type.lastIndexOf('})') === type.length - 2) return type.slice(0, type.length - 1) + `, ${encoded})`
     if (type.lastIndexOf('])') === type.length - 2) return type.slice(0, type.length - 1) + `, ${encoded})`
