@@ -122,7 +122,15 @@ export namespace ModelToYrel {
     return UnsupportedType(schema)
   }
   function Record(schema: Types.TRecord) {
-    return UnsupportedType(schema)
+    for (const [key, value] of globalThis.Object.entries(schema.patternProperties)) {
+      const type = Visit(value)
+      if (key === `^(0|[1-9][0-9]*)$`) {
+        return UnsupportedType(schema)
+      } else {
+        return Type(schema, `y.record(y.string(), ${type})`)
+      }
+    }
+    throw Error(`Unreachable`)
   }
   function Ref(schema: Types.TRef) {
     if (!reference_map.has(schema.$ref!)) return UnsupportedType(schema)
