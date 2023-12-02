@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 ---------------------------------------------------------------------------*/
 
-import { Hash } from '@sinclair/typebox/value/hash'
+import { Hash } from '@sinclair/typebox/value'
 import * as Expr from './expression'
 
 // ---------------------------------------------------------------------

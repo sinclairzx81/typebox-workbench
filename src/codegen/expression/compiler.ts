@@ -27,7 +27,7 @@ THE SOFTWARE.
 ---------------------------------------------------------------------------*/
 
 import * as Expr from './expression'
-import { Hash } from '@sinclair/typebox/value/hash'
+import { Hash } from '@sinclair/typebox/value'
 
 // --------------------------------------------------------------------------
 // PropertyFormatter

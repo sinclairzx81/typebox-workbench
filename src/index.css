@@ -34,8 +34,8 @@ THE SOFTWARE.
   --background-color: #010409;
   --outline-color: #ffa500;
   --link-color: #ffa500;
-  --control-default-color: #111;
-  --control-selected-color: #222;
+  --control-default-color: #080808;
+  --control-selected-color: #111;
 }
 html,
 body {
@@ -322,7 +322,7 @@ APP FOOTER
   background-color: #020202;
   font-family: conthrax;
   width: 32px;
-  margin-top: 8px;
+  padding-top: 8px;
   line-height: 32px;
   writing-mode: vertical-rl;
   text-orientation: sideways;

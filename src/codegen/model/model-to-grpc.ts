@@ -33,7 +33,7 @@ import * as Types from '@sinclair/typebox'
 // --------------------------------------------------------------------------
 export namespace ModelToGRPC {
   function ResolveTypeName(schema: Types.TSchema) {
-    if (Types.TypeGuard.TObject(schema) && schema.$id === undefined) return UnsupportedType(schema)
+    if (Types.TypeGuard.IsObject(schema) && schema.$id === undefined) return UnsupportedType(schema)
     if (schema.$id) return schema.$id
     return Collect(schema)
   }
@@ -64,7 +64,7 @@ export namespace ModelToGRPC {
     return UnsupportedType(schema)
   }
   function Intersect(schema: Types.TIntersect) {
-    const all = schema.allOf.every((schema) => Types.TypeGuard.TObject(schema))
+    const all = schema.allOf.every((schema) => Types.TypeGuard.IsObject(schema))
     return all ? Object({ ...Types.Type.Composite(schema.allOf as any), $id: schema.$id }) : ''
   }
   function Literal(schema: Types.TLiteral) {
@@ -98,13 +98,13 @@ export namespace ModelToGRPC {
     )
   }
   function Object(schema: Types.TObject) {
-    const isService = globalThis.Object.values(schema.properties).some((schema) => Types.TypeGuard.TFunction(schema))
+    const isService = globalThis.Object.values(schema.properties).some((schema) => Types.TypeGuard.IsFunction(schema))
     // prettier-ignore
     const properties = globalThis.Object.entries(schema.properties).map(([key, property], index) => {
       const propertyKey = PropertyEncoder.Encode(key)
       const typeName = ResolveTypeName(property)
       if(property.$id) return `  ${property.$id} ${propertyKey} = ${index}`      
-      return (Types.TypeGuard.TFunction(property))
+      return (Types.TypeGuard.IsFunction(property))
         ? `  rpc ${propertyKey} ${typeName}`
         : `  ${typeName} ${propertyKey} = ${index}`
     }).join(`\n`)
@@ -154,32 +154,32 @@ export namespace ModelToGRPC {
   function Visit(schema: Types.TSchema): string {
     if (schema.$id !== undefined) reference_map.set(schema.$id, schema)
     if (schema.$id !== undefined && emitted_set.has(schema.$id!)) return schema.$id!
-    if (Types.TypeGuard.TAny(schema)) return Any(schema)
-    if (Types.TypeGuard.TArray(schema)) return Array(schema)
-    if (Types.TypeGuard.TBigInt(schema)) return BigInt(schema)
-    if (Types.TypeGuard.TBoolean(schema)) return Boolean(schema)
-    if (Types.TypeGuard.TDate(schema)) return Date(schema)
-    if (Types.TypeGuard.TConstructor(schema)) return Constructor(schema)
-    if (Types.TypeGuard.TFunction(schema)) return Function(schema)
-    if (Types.TypeGuard.TInteger(schema)) return Integer(schema)
-    if (Types.TypeGuard.TIntersect(schema)) return Intersect(schema)
-    if (Types.TypeGuard.TLiteral(schema)) return Literal(schema)
-    if (Types.TypeGuard.TNever(schema)) return Never(schema)
-    if (Types.TypeGuard.TNull(schema)) return Null(schema)
-    if (Types.TypeGuard.TNumber(schema)) return Number(schema)
-    if (Types.TypeGuard.TObject(schema)) return Object(schema)
-    if (Types.TypeGuard.TPromise(schema)) return Promise(schema)
-    if (Types.TypeGuard.TRecord(schema)) return Record(schema)
-    if (Types.TypeGuard.TRef(schema)) return Ref(schema)
-    if (Types.TypeGuard.TString(schema)) return String(schema)
-    if (Types.TypeGuard.TTemplateLiteral(schema)) return TemplateLiteral(schema)
-    if (Types.TypeGuard.TThis(schema)) return This(schema)
-    if (Types.TypeGuard.TTuple(schema)) return Tuple(schema)
-    if (Types.TypeGuard.TUint8Array(schema)) return UInt8Array(schema)
-    if (Types.TypeGuard.TUndefined(schema)) return Undefined(schema)
-    if (Types.TypeGuard.TUnion(schema)) return Union(schema)
-    if (Types.TypeGuard.TUnknown(schema)) return Unknown(schema)
-    if (Types.TypeGuard.TVoid(schema)) return Void(schema)
+    if (Types.TypeGuard.IsAny(schema)) return Any(schema)
+    if (Types.TypeGuard.IsArray(schema)) return Array(schema)
+    if (Types.TypeGuard.IsBigInt(schema)) return BigInt(schema)
+    if (Types.TypeGuard.IsBoolean(schema)) return Boolean(schema)
+    if (Types.TypeGuard.IsDate(schema)) return Date(schema)
+    if (Types.TypeGuard.IsConstructor(schema)) return Constructor(schema)
+    if (Types.TypeGuard.IsFunction(schema)) return Function(schema)
+    if (Types.TypeGuard.IsInteger(schema)) return Integer(schema)
+    if (Types.TypeGuard.IsIntersect(schema)) return Intersect(schema)
+    if (Types.TypeGuard.IsLiteral(schema)) return Literal(schema)
+    if (Types.TypeGuard.IsNever(schema)) return Never(schema)
+    if (Types.TypeGuard.IsNull(schema)) return Null(schema)
+    if (Types.TypeGuard.IsNumber(schema)) return Number(schema)
+    if (Types.TypeGuard.IsObject(schema)) return Object(schema)
+    if (Types.TypeGuard.IsPromise(schema)) return Promise(schema)
+    if (Types.TypeGuard.IsRecord(schema)) return Record(schema)
+    if (Types.TypeGuard.IsRef(schema)) return Ref(schema)
+    if (Types.TypeGuard.IsString(schema)) return String(schema)
+    if (Types.TypeGuard.IsTemplateLiteral(schema)) return TemplateLiteral(schema)
+    if (Types.TypeGuard.IsThis(schema)) return This(schema)
+    if (Types.TypeGuard.IsTuple(schema)) return Tuple(schema)
+    if (Types.TypeGuard.IsUint8Array(schema)) return UInt8Array(schema)
+    if (Types.TypeGuard.IsUndefined(schema)) return Undefined(schema)
+    if (Types.TypeGuard.IsUnion(schema)) return Union(schema)
+    if (Types.TypeGuard.IsUnknown(schema)) return Unknown(schema)
+    if (Types.TypeGuard.IsVoid(schema)) return Void(schema)
     return UnsupportedType(schema)
   }
   function Collect(schema: Types.TSchema) {
@@ -236,7 +236,7 @@ export namespace ModelToGRPC {
     emitted_set.clear()
     const buffer: string[] = [NativeTypes(model), '', 'const IDL = (`', 'syntax = "proto3";', '']
     for (const type of model.types) {
-      if (!(Types.TypeGuard.TObject(type) || Types.TypeGuard.TIntersect(type))) continue
+      if (!(Types.TypeGuard.IsObject(type) || Types.TypeGuard.IsIntersect(type))) continue
       buffer.push(GenerateType(model, type, model.types))
     }
     buffer.push('`)')
