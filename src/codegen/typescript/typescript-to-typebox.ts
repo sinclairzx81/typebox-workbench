@@ -128,8 +128,16 @@ export namespace TypeScriptToTypeBox {
   // ------------------------------------------------------------------------------------------------------------
   // Options
   // ------------------------------------------------------------------------------------------------------------
-  function ResolveJsDocComment(node: ts.TypeAliasDeclaration | ts.PropertySignature | ts.InterfaceDeclaration): string {
+  function ResolveJsDocComment(node: ts.TypeAliasDeclaration | ts.PropertySignature | ts.InterfaceDeclaration | ts.LiteralTypeNode): string {
     const content = node.getFullText().trim()
+    if (node.kind === ts.SyntaxKind.LiteralType) {
+      if (content.startsWith("/**")) {
+        // add a new line for JsDoc to parse properly
+        return content.slice(0, content.lastIndexOf('*/') + 2).replace(/\*+\/$/, '\n$0')
+      } else {
+        return ''
+      }
+    }
     const indices = [content.indexOf('/**'), content.indexOf('type'), content.indexOf('interface')].map((n) => (n === -1 ? Infinity : n))
     if (indices[0] === -1 || indices[1] < indices[0] || indices[2] < indices[0]) return '' // no comment or declaration before comment
     for (let i = indices[0]; i < content.length; i++) {
@@ -137,7 +145,7 @@ export namespace TypeScriptToTypeBox {
     }
     return ''
   }
-  function ResolveOptions(node: ts.TypeAliasDeclaration | ts.PropertySignature | ts.InterfaceDeclaration): Record<string, unknown> {
+  function ResolveOptions(node: ts.TypeAliasDeclaration | ts.PropertySignature | ts.InterfaceDeclaration | ts.LiteralTypeNode): Record<string, unknown> {
     const content = ResolveJsDocComment(node)
     return JsDoc.Parse(content)
   }
@@ -236,12 +244,12 @@ export namespace TypeScriptToTypeBox {
         (optional_subtractive) ? `Type.Mapped(${C}, ${K} => Type.Readonly(Type.Optional(${T}, false)))` :
         `Type.Mapped(${C}, ${K} => Type.Readonly(Type.Optional(${T})))`
       ) : (readonly) ? (
-        readonly_subtractive 
-          ? `Type.Mapped(${C}, ${K} => Type.Readonly(${T}, false))` 
+        readonly_subtractive
+          ? `Type.Mapped(${C}, ${K} => Type.Readonly(${T}, false))`
           : `Type.Mapped(${C}, ${K} => Type.Readonly(${T}))`
       ) : (optional) ? (
-        optional_subtractive 
-          ? `Type.Mapped(${C}, ${K} => Type.Optional(${T}, false))` 
+        optional_subtractive
+          ? `Type.Mapped(${C}, ${K} => Type.Optional(${T}, false))`
           : `Type.Mapped(${C}, ${K} => Type.Optional(${T}))`
       ) : `Type.Mapped(${C}, ${K} => ${T})`
     )
@@ -472,7 +480,7 @@ export namespace TypeScriptToTypeBox {
   function* LiteralTypeNode(node: ts.LiteralTypeNode): IterableIterator<string> {
     const text = node.getText()
     if (text === 'null') return yield `Type.Null()`
-    yield `Type.Literal(${node.getText()})`
+    yield InjectOptions(`Type.Literal(${node.getText()})`, ResolveOptions(node))
   }
   function* ModuleDeclaration(node: ts.ModuleDeclaration): IterableIterator<string> {
     const export_specifier = IsExport(node) ? 'export ' : ''
