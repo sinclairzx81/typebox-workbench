@@ -390,6 +390,7 @@ export namespace TypeScriptToTypeBox {
     recursiveDeclaration = null
   }
   function* HeritageClause(node: ts.HeritageClause): IterableIterator<string> {
+    // Consideration: This may be better expressed as a heritage type (for review)
     const types = node.types.map((node) => Collect(node))
     if (types.length === 1) return yield types[0]
     yield `Type.Composite([${types.join(', ')}])`
