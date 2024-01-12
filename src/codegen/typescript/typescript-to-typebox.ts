@@ -390,13 +390,10 @@ export namespace TypeScriptToTypeBox {
     recursiveDeclaration = null
   }
   function* HeritageClause(node: ts.HeritageClause): IterableIterator<string> {
-    // Consideration: This may be better expressed as a heritage type (for review)
     const types = node.types.map((node) => Collect(node))
-    if (types.length === 1) return yield types[0]
-    // yield `Type.Composite([${types.join(', ')}])`
-
-    // Note: Heritage clauses are only used in extends cases, and where Composite
-    // is the exterior type. These types will be prepended to the Composite array.
+    // Note: Heritage clauses are only used in interface extends cases. We expect the
+    // outer type to be a Composite, and where this type will be prepended before the
+    // interface definition.
     yield types.join(', ')
   }
   function* IndexedAccessType(node: ts.IndexedAccessTypeNode): IterableIterator<string> {
