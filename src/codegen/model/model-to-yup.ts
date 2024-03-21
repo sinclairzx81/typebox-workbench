@@ -147,6 +147,9 @@ export namespace ModelToYup {
     return Type(schema, `(y.mixed((value): value is any => value === undefined) as y.MixedSchema<undefined>)`)
   }
   function Union(schema: Types.TUnion) {
+    if(schema[Types.Hint] === "Enum"){
+      return Type(schema, `y.mixed().oneOf([${schema.anyOf.map((schema) => JSON.stringify(schema.const)).join(`, `)}]).required()`)
+    }
     return Type(schema, `y.mixed().oneOf([${schema.anyOf.map((schema) => Visit(schema)).join(`, `)}]).required()`)
   }
   function Unknown(schema: Types.TUnknown) {
