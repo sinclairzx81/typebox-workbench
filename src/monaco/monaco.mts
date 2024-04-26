@@ -81,8 +81,8 @@ async function getMonacoEntries(): Promise<MonacoEntry[]> {
 monaco.editor.defineTheme('typebox', {
   base: 'vs-dark',
   colors: {
-    //'editor.background': '#0d1117',
-    'editor.background': '#010409',
+    'editor.background': '#0d1117',
+    //'editor.background': '#060A0F',
     'editor.foreground': '#AAAAAA',
   },
   inherit: true,
