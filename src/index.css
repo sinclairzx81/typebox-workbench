@@ -31,11 +31,11 @@ THE SOFTWARE.
   src: url('./assets/fonts/font.ttf');
 }
 :root {
-  --background-color: #010409;
+  --background-color: #0d1117;
   --outline-color: #ffa500;
   --link-color: #ffa500;
-  --control-default-color: #080808;
-  --control-selected-color: #111;
+  --control-default-color: #0d1117;
+  --control-selected-color: #0d1117;
 }
 html,
 body {
@@ -227,7 +227,7 @@ APP FOOTER
   background: transparent;
 }
 .editor .target-container .target-controls {
-  background-color: #020202;
+  background-color: #0d1117;
   margin-left: 12px;
   width: 56px;
   min-width: 56px;
@@ -319,7 +319,7 @@ APP FOOTER
  Transform Control Label
 ------------------------------------------------------ */
 .editor .target-container .target-name {
-  background-color: #020202;
+  background-color: #0d1117;
   font-family: conthrax;
   width: 32px;
   padding-top: 8px;
