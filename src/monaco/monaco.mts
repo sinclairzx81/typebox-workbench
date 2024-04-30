@@ -89,8 +89,9 @@ export async function loadEntry(entry: MonacoEntry): Promise<string> {
   await moduleCache.set(entry.path, content)
   return content
 }
-async function addExtraLib(entry: MonacoEntry, semaphore: Async.Semaphore): Promise<monaco.IDisposable> {
+async function addExtraLib(entry: MonacoEntry, semaphore: Async.Semaphore, loading: HTMLDivElement): Promise<monaco.IDisposable> {
   const lock = await semaphore.lock()
+  loading.innerHTML = `<span style='color: white'>LOADING</span>&nbsp;${entry.path}`
   const content = await loadEntry(entry)
   const result = monaco.languages.typescript.typescriptDefaults.addExtraLib(content, entry.alias)
   lock.dispose()
@@ -100,12 +101,11 @@ export async function loadDependencies() {
   const container = document.getElementById('container')!
   const loading = document.createElement('div')
   loading.id = 'loading'
-  loading.innerHTML = 'LOADING'
   container.appendChild(loading)
 
   const semaphore = new Async.Semaphore({ concurrency: 128 })
   const entries = await getMonacoEntries()
-  for (const entry of entries) addExtraLib(entry, semaphore)
+  for (const entry of entries) addExtraLib(entry, semaphore, loading)
   const lock = await semaphore.lock()
   lock.dispose()
   container.removeChild(loading)

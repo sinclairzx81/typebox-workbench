@@ -49,11 +49,11 @@ body {
 #loading {
   font-family: conthrax;
   color: var(--outline-color);
-  width: 100%;
+  width:calc(100% - 32px);
   height: 80px;
   min-height: 80px;
   line-height: 80px;
-  text-align: center;
+  padding-left: 32px;
   background-color: var(--background-color);
   border-bottom: 1px solid var(--outline-color);
 }
