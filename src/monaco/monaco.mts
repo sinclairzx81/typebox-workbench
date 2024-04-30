@@ -110,8 +110,6 @@ export async function loadDependencies() {
   lock.dispose()
   container.removeChild(loading)
 }
-
-await loadDependencies().catch((error) => console.error(error))
 // -------------------------------------------------------------
 // Monaco Global Setup
 // -------------------------------------------------------------
@@ -141,6 +139,9 @@ monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
   baseUrl: '.',
   typeRoots: ['node_modules/@types'],
 })
+
+await loadDependencies().catch((error) => console.log(error))
+
 // -------------------------------------------------------------
 // Monaco Factory
 // -------------------------------------------------------------

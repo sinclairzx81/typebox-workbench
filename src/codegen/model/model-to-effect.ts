@@ -80,7 +80,7 @@ export namespace ModelToEffect {
   }
   function Literal(schema: Types.TLiteral) {
     const value = typeof schema.const === `string` ? `'${schema.const}'` : schema.const
-    return Type(schema, `ES.Literal('${value}')`)
+    return Type(schema, `ES.Literal(${value})`)
   }
   function Never(schema: Types.TNever) {
     return Type(schema, `ES.Never`)
