@@ -1,0 +1,1 @@
+{"version":3,"file":"serializable.js","names":["symbol","Symbol","for","symbolResult"],"sources":["../../../src/internal/serializable.ts"],"sourcesContent":[null],"mappings":"AAAA;AACA,OAAO,MAAMA,MAAM,gBAAkBC,MAAM,CAACC,GAAG,CAC7C,oCAAoC,CACrC;AAED;AACA,OAAO,MAAMC,YAAY,gBAAkBF,MAAM,CAACC,GAAG,CACnD,0CAA0C,CAC3C","ignoreList":[]}

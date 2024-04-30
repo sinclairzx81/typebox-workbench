@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/Readable.js",
+  "module": "../dist/esm/Readable.js",
+  "types": "../dist/dts/Readable.d.ts",
+  "sideEffects": []
+}

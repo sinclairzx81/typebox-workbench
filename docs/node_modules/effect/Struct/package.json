@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/Struct.js",
+  "module": "../dist/esm/Struct.js",
+  "types": "../dist/dts/Struct.d.ts",
+  "sideEffects": []
+}

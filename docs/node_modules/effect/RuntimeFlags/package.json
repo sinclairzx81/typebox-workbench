@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/RuntimeFlags.js",
+  "module": "../dist/esm/RuntimeFlags.js",
+  "types": "../dist/dts/RuntimeFlags.d.ts",
+  "sideEffects": []
+}

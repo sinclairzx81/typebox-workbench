@@ -27,3 +27,4 @@ THE SOFTWARE.
 ---------------------------------------------------------------------------*/
 
 export * from './debounce.mjs'
+export * from './semaphore.mjs'

@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/Brand.js",
+  "module": "../dist/esm/Brand.js",
+  "types": "../dist/dts/Brand.d.ts",
+  "sideEffects": []
+}

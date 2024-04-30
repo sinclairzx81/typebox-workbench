@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/ConfigProviderPathPatch.js",
+  "module": "../dist/esm/ConfigProviderPathPatch.js",
+  "types": "../dist/dts/ConfigProviderPathPatch.d.ts",
+  "sideEffects": []
+}

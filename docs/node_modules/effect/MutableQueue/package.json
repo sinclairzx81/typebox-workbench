@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/MutableQueue.js",
+  "module": "../dist/esm/MutableQueue.js",
+  "types": "../dist/dts/MutableQueue.d.ts",
+  "sideEffects": []
+}

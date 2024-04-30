@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/Scheduler.js",
+  "module": "../dist/esm/Scheduler.js",
+  "types": "../dist/dts/Scheduler.d.ts",
+  "sideEffects": []
+}

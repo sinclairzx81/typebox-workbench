@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/SynchronizedRef.js",
+  "module": "../dist/esm/SynchronizedRef.js",
+  "types": "../dist/dts/SynchronizedRef.d.ts",
+  "sideEffects": []
+}

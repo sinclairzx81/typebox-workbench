@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/Utils.js",
+  "module": "../dist/esm/Utils.js",
+  "types": "../dist/dts/Utils.d.ts",
+  "sideEffects": []
+}

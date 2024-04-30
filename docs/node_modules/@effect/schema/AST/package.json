@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/AST.js",
+  "module": "../dist/esm/AST.js",
+  "types": "../dist/dts/AST.d.ts",
+  "sideEffects": []
+}

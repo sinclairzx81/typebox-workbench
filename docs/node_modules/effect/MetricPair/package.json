@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/MetricPair.js",
+  "module": "../dist/esm/MetricPair.js",
+  "types": "../dist/dts/MetricPair.d.ts",
+  "sideEffects": []
+}

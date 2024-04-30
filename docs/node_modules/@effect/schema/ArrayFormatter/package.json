@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/ArrayFormatter.js",
+  "module": "../dist/esm/ArrayFormatter.js",
+  "types": "../dist/dts/ArrayFormatter.d.ts",
+  "sideEffects": []
+}

@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/Serializable.js",
+  "module": "../dist/esm/Serializable.js",
+  "types": "../dist/dts/Serializable.d.ts",
+  "sideEffects": []
+}

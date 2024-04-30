@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/BigDecimal.js",
+  "module": "../dist/esm/BigDecimal.js",
+  "types": "../dist/dts/BigDecimal.d.ts",
+  "sideEffects": []
+}

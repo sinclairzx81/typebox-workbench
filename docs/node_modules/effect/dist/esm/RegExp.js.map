@@ -1,0 +1,1 @@
+{"version":3,"file":"RegExp.js","names":["escape","string","replace"],"sources":["../../src/RegExp.ts"],"sourcesContent":[null],"mappings":"AAAA;;;;;AAMA;;;;;;;;;;AAUA,OAAO,MAAMA,MAAM,GAAIC,MAAc,IAAaA,MAAM,CAACC,OAAO,CAAC,sBAAsB,EAAE,MAAM,CAAC","ignoreList":[]}

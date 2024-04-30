@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/Arbitrary.js",
+  "module": "../dist/esm/Arbitrary.js",
+  "types": "../dist/dts/Arbitrary.d.ts",
+  "sideEffects": []
+}

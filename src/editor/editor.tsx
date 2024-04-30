@@ -70,7 +70,7 @@ export function Editor(props: EditorProperties) {
     editor.onKeyUp(() => debounce.run(() => updateTransform()))
     sourceEditor.current = editor
   }
-  function setupTargetEditor() {
+  async function setupTargetEditor() {
     if (targetEditorRef.current === null) return
     const editor = Monaco.create(targetEditorRef.current, '')
     targetEditor.current = editor
@@ -88,6 +88,7 @@ export function Editor(props: EditorProperties) {
   }
   function buildTransform(type: TransformType, typescript: string): string {
     const model = Codegen.TypeScriptToModel.Generate(typescript)
+    if (type === 'effect') return Codegen.ModelToEffect.Generate(model)
     if (type === 'arktype') return Codegen.ModelToArkType.Generate(model)
     if (type === 'expression') return Codegen.ModelToExpr.Generate(model)
     if (type === 'grpc') return Codegen.ModelToGRPC.Generate(model)
@@ -136,6 +137,7 @@ export function Editor(props: EditorProperties) {
   }
   function getTransformLabel(type: TransformType) {
     if (type === 'arktype') return 'ArkType'
+    if (type === 'effect') return 'Effect'
     if (type === 'expression') return 'Type Expression'
     if (type === 'iots') return 'io-ts'
     if (type === 'grpc') return 'GRPC Interface Definition Language'
@@ -150,6 +152,7 @@ export function Editor(props: EditorProperties) {
     if (type === 'zod') return 'Zod'
   }
   const arktypeControlClassName = getControlsButtonClassName('arktype')
+  const effectControlClassName = getControlsButtonClassName('effect')
   const expressionControlClassName = getControlsButtonClassName('expression')
   const iotsControlClassName = getControlsButtonClassName('iots')
   const grpcControlClassName = getControlsButtonClassName('grpc')
@@ -178,6 +181,7 @@ export function Editor(props: EditorProperties) {
           <div className="target-controls">
             <div className={typeboxControlClassName} title="TypeBox Transform" onClick={() => onTransform('typebox')}></div>
             <div className="control separator" />
+            <div className={effectControlClassName} title="Effect Transform" onClick={() => onTransform('effect')}></div>
             <div className={zodControlClassName} title="Zod Transform" onClick={() => onTransform('zod')}></div>
             <div className={iotsControlClassName} title="Io-Ts Transform" onClick={() => onTransform('iots')}></div>
             <div className={arktypeControlClassName} title="ArkType Transform" onClick={() => onTransform('arktype')}></div>

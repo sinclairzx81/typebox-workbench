@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/TreeFormatter.js",
+  "module": "../dist/esm/TreeFormatter.js",
+  "types": "../dist/dts/TreeFormatter.d.ts",
+  "sideEffects": []
+}

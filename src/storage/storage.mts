@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 ---------------------------------------------------------------------------*/
 
-export type TransformType = 'arktype' | 'expression' | 'grpc' | 'iots' | 'javascript' | 'jsonschema' | 'typebox' | 'typescript' | 'valibot' | 'value' | 'yrel' | 'yup' | 'zod'
+export type TransformType = 'arktype' | 'effect' | 'expression' | 'grpc' | 'iots' | 'javascript' | 'jsonschema' | 'typebox' | 'typescript' | 'valibot' | 'value' | 'yrel' | 'yup' | 'zod'
 
 export namespace Storage {
   // prettier-ignore

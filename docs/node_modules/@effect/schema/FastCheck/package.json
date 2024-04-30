@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/FastCheck.js",
+  "module": "../dist/esm/FastCheck.js",
+  "types": "../dist/dts/FastCheck.d.ts",
+  "sideEffects": []
+}

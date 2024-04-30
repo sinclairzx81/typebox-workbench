@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/Tuple.js",
+  "module": "../dist/esm/Tuple.js",
+  "types": "../dist/dts/Tuple.d.ts",
+  "sideEffects": []
+}

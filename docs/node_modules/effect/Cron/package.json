@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/Cron.js",
+  "module": "../dist/esm/Cron.js",
+  "types": "../dist/dts/Cron.d.ts",
+  "sideEffects": []
+}

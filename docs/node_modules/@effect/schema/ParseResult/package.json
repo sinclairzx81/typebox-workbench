@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/ParseResult.js",
+  "module": "../dist/esm/ParseResult.js",
+  "types": "../dist/dts/ParseResult.d.ts",
+  "sideEffects": []
+}

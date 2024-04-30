@@ -1,0 +1,6 @@
+{
+  "main": "../dist/cjs/RequestResolver.js",
+  "module": "../dist/esm/RequestResolver.js",
+  "types": "../dist/dts/RequestResolver.d.ts",
+  "sideEffects": []
+}

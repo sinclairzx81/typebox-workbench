@@ -25,6 +25,7 @@ THE SOFTWARE.
 ---------------------------------------------------------------------------*/
 
 export * from './model-to-arktype'
+export * from './model-to-effect'
 export * from './model-to-expression'
 export * from './model-to-grpc'
 export * from './model-to-io-ts'

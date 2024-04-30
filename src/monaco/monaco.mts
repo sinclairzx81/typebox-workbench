@@ -27,6 +27,13 @@ THE SOFTWARE.
 ---------------------------------------------------------------------------*/
 
 import * as monaco from 'monaco-editor'
+import * as Async from '../async/index.mjs'
+import * as Cache from '../cache/index.mjs'
+
+// --------------------------------------------------------------------------
+// Module Cache
+// --------------------------------------------------------------------------
+const moduleCache = await Cache.open('node_modules', 1)
 
 // --------------------------------------------------------------------------
 // Monaco Workers
@@ -52,7 +59,7 @@ self['MonacoEnvironment'] = {
 // --------------------------------------------------------------------------
 // File IO
 // --------------------------------------------------------------------------
-const readFile = async (path: string) => await fetch(path).then((res) => res.text())
+const fetchFile = async (path: string) => await fetch(path).then((res) => res.text())
 const readJson = async (path: string) => await fetch(path).then((res) => res.json())
 // --------------------------------------------------------------------------
 // File Manifest
@@ -75,6 +82,36 @@ async function getMonacoEntries(): Promise<MonacoEntry[]> {
   const declarations = entries.filter((entry) => isDeclaration(entry))
   return declarations.map((entry) => mapEntry(entry))
 }
+export async function loadEntry(entry: MonacoEntry): Promise<string> {
+  const value = await moduleCache.get(entry.path)
+  if (typeof value === 'string') return value
+  const content = await fetchFile(entry.path)
+  await moduleCache.set(entry.path, content)
+  return content
+}
+async function addExtraLib(entry: MonacoEntry, semaphore: Async.Semaphore): Promise<monaco.IDisposable> {
+  const lock = await semaphore.lock()
+  const content = await loadEntry(entry)
+  const result = monaco.languages.typescript.typescriptDefaults.addExtraLib(content, entry.alias)
+  lock.dispose()
+  return result
+}
+export async function loadDependencies() {
+  const container = document.getElementById('container')!
+  const loading = document.createElement('div')
+  loading.id = 'loading'
+  loading.innerHTML = 'LOADING'
+  container.appendChild(loading)
+
+  const semaphore = new Async.Semaphore({ concurrency: 128 })
+  const entries = await getMonacoEntries()
+  for (const entry of entries) addExtraLib(entry, semaphore)
+  const lock = await semaphore.lock()
+  lock.dispose()
+  container.removeChild(loading)
+}
+
+await loadDependencies().catch((error) => console.error(error))
 // -------------------------------------------------------------
 // Monaco Global Setup
 // -------------------------------------------------------------
@@ -104,15 +141,6 @@ monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
   baseUrl: '.',
   typeRoots: ['node_modules/@types'],
 })
-async function addExtraLib(entry: MonacoEntry): Promise<monaco.IDisposable> {
-  const content = await readFile(entry.path)
-  return monaco.languages.typescript.typescriptDefaults.addExtraLib(content, entry.alias)
-}
-async function addExtraLibs() {
-  const entries = await getMonacoEntries()
-  return Promise.all([entries.map(addExtraLib)])
-}
-addExtraLibs()
 // -------------------------------------------------------------
 // Monaco Factory
 // -------------------------------------------------------------
