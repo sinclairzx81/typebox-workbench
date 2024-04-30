@@ -49,7 +49,7 @@ body {
 #loading {
   font-family: conthrax;
   color: var(--outline-color);
-  width:calc(100% - 32px);
+  width: calc(100% - 32px);
   height: 80px;
   min-height: 80px;
   line-height: 80px;

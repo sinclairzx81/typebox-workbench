@@ -60,21 +60,22 @@ export class Cache {
     }
   }
 }
-export async function open(name: string, version: number) {
-  const database = await IndexedDB.Factory.open(
-    name,
-    async (database) => {
-      // ensure we clear the items store on version change
-      if (!database.objectStoreNames.contains('items')) {
-        console.log('creating node_modules')
-        database.createObjectStore('items', { keyPath: 'key' })
-      } else {
-        console.log('clearing node_modules')
+// prettier-ignore
+export async function open(name: string, version: number, attempt: number = 0) {
+  try {
+    const database = await IndexedDB.Factory.open(name, async (database) => {
+      if (database.objectStoreNames.contains('items')) {
         database.deleteObjectStore('items')
-        database.createObjectStore('items', { keyPath: 'key' })
-      }
-    },
-    version,
-  )
-  return new Cache(database)
+      } 
+      database.createObjectStore('items', { keyPath: 'key' })
+    }, version)
+    return new Cache(database)
+  } catch (error) {
+    if(attempt === 0) {
+      await IndexedDB.Factory.deleteDatabase(name)
+      return await open(name, version, 1)
+    } else {
+      throw new Error('Cache database failed to open')
+    }
+  }
 }

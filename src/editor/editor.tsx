@@ -180,12 +180,11 @@ export function Editor(props: EditorProperties) {
         <div className="target-container">
           <div className="target-controls">
             <div className={typeboxControlClassName} title="TypeBox Transform" onClick={() => onTransform('typebox')}></div>
-            <div className="control separator" />
-            <div className={effectControlClassName} title="Effect Transform" onClick={() => onTransform('effect')}></div>
             <div className={zodControlClassName} title="Zod Transform" onClick={() => onTransform('zod')}></div>
-            <div className={iotsControlClassName} title="Io-Ts Transform" onClick={() => onTransform('iots')}></div>
-            <div className={arktypeControlClassName} title="ArkType Transform" onClick={() => onTransform('arktype')}></div>
+            <div className={effectControlClassName} title="Effect Transform" onClick={() => onTransform('effect')}></div>
             <div className={valibotControlClassName} title="Valibot Transform" onClick={() => onTransform('valibot')}></div>
+            <div className={arktypeControlClassName} title="ArkType Transform" onClick={() => onTransform('arktype')}></div>
+            <div className={iotsControlClassName} title="Io-Ts Transform" onClick={() => onTransform('iots')}></div>
             <div className={yrelControlClassName} title="Yrel Transform" onClick={() => onTransform('yrel')}></div>
             <div className={yupControlClassName} title="Yup Transform" onClick={() => onTransform('yup')}></div>
             <div className="control separator" />
