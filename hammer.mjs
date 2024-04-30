@@ -25,7 +25,7 @@ export async function start() {
   await clean()
   await Monaco.buildWorkers()
   await Packages.addPackages(libraries)
-  const drift = shell('drift window url http://localhost:5000 size 1280 980 wait 6000 save workbench.png')
+  const drift = shell('drift url http://localhost:5000 size 1280 980 wait 6000 save workbench.png')
   const serve = shell('hammer serve src/index.html --dist docs --minify --external assert')
   await Promise.all([drift, serve])
 }
