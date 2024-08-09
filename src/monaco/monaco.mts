@@ -113,6 +113,9 @@ export async function loadDependencies() {
 // -------------------------------------------------------------
 // Monaco Global Setup
 // -------------------------------------------------------------
+// how to override the compiler version?
+console.log('typescript', monaco.languages.typescript.typescriptVersion)
+
 monaco.editor.defineTheme('typebox', {
   base: 'vs-dark',
   colors: {
