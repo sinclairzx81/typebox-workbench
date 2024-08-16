@@ -4,7 +4,7 @@ import * as Monaco from './build/monaco'
 // --------------------------------------------------------------------------------------
 // Libraries
 // --------------------------------------------------------------------------------------
-const libraries = ['@sinclair/typebox', 'effect', '@effect/schema', 'arktype', 'zod', 'io-ts', 'fp-ts', 'yup', 'valibot', 'yrel']
+const libraries = ['@sinclair/typebox', 'effect', '@effect/schema', 'arktype', '@ark/schema', '@ark/util', 'zod', 'io-ts', 'fp-ts', 'yup', 'valibot', 'yrel']
 
 // --------------------------------------------------------------------------------------
 // Clean
