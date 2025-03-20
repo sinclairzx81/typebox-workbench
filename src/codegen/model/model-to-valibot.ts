@@ -93,7 +93,7 @@ export namespace ModelToValibot {
     return Type(`v.never`, null, [])
   }
   function Null(schema: Types.TNull) {
-    return Type(`v.nullish`, null, [])
+    return Type(`v.null`, null, [])
   }
   function String(schema: Types.TString) {
     const constraints: string[] = []
@@ -144,7 +144,7 @@ export namespace ModelToValibot {
           }
           if(notUndefined && !notNull) {
             const a = Types.Exclude(value,Types.Null())
-            return `${property}: v.nullish(${Visit(a)})`
+            return `${property}: ${Visit(value)}`
           }
         }
         return `${property}: ${Visit(value)}`
@@ -187,7 +187,7 @@ export namespace ModelToValibot {
     return UnsupportedType(schema)
   }
   function Undefined(schema: Types.TUndefined) {
-    return Type(`v.undefinedable`, null, [])
+    return Type(`v.undefined`, null, [])
   }
   function Union(schema: Types.TUnion) {
     const inner = schema.anyOf.map((schema) => Visit(schema)).join(`, `)
