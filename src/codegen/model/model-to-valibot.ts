@@ -30,8 +30,15 @@ import { ModelToTypeScript } from './model-to-typescript'
 import * as Types from '@sinclair/typebox'
 
 // --------------------------------------------------------------------------
+// ModelToValibotSettings
+// --------------------------------------------------------------------------
+export interface ModelToValibotSettings {
+  exactOptionalPropertyTypes: boolean
+}
+// --------------------------------------------------------------------------
 // ModelToValibot
 // --------------------------------------------------------------------------
+// prettier-ignore
 export namespace ModelToValibot {
   function IsDefined<T = any>(value: unknown): value is T {
     return value !== undefined
@@ -84,7 +91,6 @@ export namespace ModelToValibot {
     return Type(`v.intersect`, `[${inner.join(', ')}]`, [])
   }
   function Literal(schema: Types.TLiteral) {
-    // prettier-ignore
     return typeof schema.const === `string` 
       ? Type(`v.literal`, `'${schema.const}'`, []) 
       : Type(`v.literal`, `${schema.const}`, [])
@@ -93,7 +99,7 @@ export namespace ModelToValibot {
     return Type(`v.never`, null, [])
   }
   function Null(schema: Types.TNull) {
-    return Type(`v.null_`, null, [])
+    return Type(`v.null`, null, [])
   }
   function String(schema: Types.TString) {
     const constraints: string[] = []
@@ -110,11 +116,14 @@ export namespace ModelToValibot {
     return Type('v.number', null, constraints)
   }
   function Object(schema: Types.TObject) {
-    // prettier-ignore
     const properties = globalThis.Object.entries(schema.properties).map(([key, value]) => {
       const optional = Types.TypeGuard.IsOptional(value)
       const property = PropertyEncoder.Encode(key)
-      return optional ? `${property}: v.optional(${Visit(value)})` : `${property}: ${Visit(value)}`
+      return optional 
+        ? settings.exactOptionalPropertyTypes
+          ? `${property}: v.exactOptional(${Visit(value)})` 
+          : `${property}: v.optional(${Visit(value)})` 
+        : `${property}: ${Visit(value)}`
     }).join(`,`)
     const constraints: string[] = []
     return Type(`v.object`, `{\n${properties}\n}`, constraints)
@@ -153,7 +162,7 @@ export namespace ModelToValibot {
     return UnsupportedType(schema)
   }
   function Undefined(schema: Types.TUndefined) {
-    return Type(`v.undefined_`, null, [])
+    return Type(`v.undefined`, null, [])
   }
   function Union(schema: Types.TUnion) {
     const inner = schema.anyOf.map((schema) => Visit(schema)).join(`, `)
@@ -163,7 +172,7 @@ export namespace ModelToValibot {
     return Type(`v.unknown`, null, [])
   }
   function Void(schema: Types.TVoid) {
-    return Type(`v.void_`, null, [])
+    return Type(`v.void`, null, [])
   }
   function UnsupportedType(schema: Types.TSchema) {
     return `v.any(/* unsupported */)`
@@ -222,7 +231,13 @@ export namespace ModelToValibot {
   const reference_map = new Map<string, Types.TSchema>()
   const recursive_set = new Set<string>()
   const emitted_set = new Set<string>()
-  export function Generate(model: TypeBoxModel): string {
+  const settings: ModelToValibotSettings = {
+    exactOptionalPropertyTypes: false
+  }
+  export function Generate(model: TypeBoxModel, options: ModelToValibotSettings = {
+    exactOptionalPropertyTypes: false
+  }): string {
+    settings.exactOptionalPropertyTypes = options.exactOptionalPropertyTypes
     reference_map.clear()
     recursive_set.clear()
     emitted_set.clear()
